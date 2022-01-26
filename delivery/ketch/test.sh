@@ -24,8 +24,8 @@ if [[ -n "${github_token}" && -n "${github_user}" ]]; then
 fi
 
 ## get node address and port
-INGRESS_PORT=$(kubectl get services -n istio-system istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
-INGRESS_HOST=$(kubectl get nodes -o jsonpath='{.items[0].status.addresses[?(@.type=="InternalIP")].address}')
+INGRESS_PORT=$(kubectl get services -n ingress-nginx ingress-nginx-controller -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
+INGRESS_HOST=$(kubectl --namespace=ingress-nginx get svc ingress-nginx-controller -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 
 ## add ketch framework
 ketch framework list | grep -q framework1
@@ -35,8 +35,8 @@ if [[ $? != 0 ]]; then
         --namespace podtato-ketch \
         --app-quota-limit '-1' \
         --cluster-issuer selfsigned-cluster-issuer \
-        --ingress-class-name istio \
-        --ingress-type istio \
+        --ingress-class-name nginx \
+        --ingress-type nginx \
         --ingress-service-endpoint "${INGRESS_HOST}"
     ketch framework export framework1
 fi

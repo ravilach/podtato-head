@@ -33,8 +33,8 @@ ketch framework add framework1 \
     --namespace podtato-ketch \
     --app-quota-limit '-1' \
     --cluster-issuer selfsigned-cluster-issuer \
-    --ingress-class-name istio \
-    --ingress-type istio \
+    --ingress-class-name nginx \
+    --ingress-type nginx \
     --ingress-service-endpoint '192.168.1.201'
 ```
 
@@ -112,6 +112,6 @@ ketch app remove podtato-head
 ketch app remove podtato-head-image
 ketch framework remove framework1
 
-ketch_version=0.4.0
+ketch_version=0.6.2
 kubectl delete -f https://github.com/shipa-corp/ketch/releases/download/v${ketch_version}/ketch-controller.yaml
 ```
